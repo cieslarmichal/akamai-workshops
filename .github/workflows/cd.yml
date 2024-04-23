@@ -18,4 +18,4 @@ jobs:
       with:
         context: .
         push: true
-        tags: ghcr.io/${{ github.repository_owner }}/image-name:latest
+        tags: ghcr.io/${{ github.repository_owner }}/aka-workshops:latest
