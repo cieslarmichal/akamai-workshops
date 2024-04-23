@@ -1,0 +1,13 @@
+{
+  "name": "aka-workshops",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "license": "UNLICENSED",
+  "dependencies": {
+    "fastify": "4.26.2"
+  }
+}
