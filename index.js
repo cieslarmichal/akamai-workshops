@@ -7,9 +7,6 @@ fastify.get("/", async (_request, _reply) => {
   return { hello: "world" };
 });
 
-/**
- * Run the server!
- */
 const start = async () => {
   try {
     await fastify.listen({ port: 3000, host: "0.0.0.0" });
