@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: disable-stuff
+  namespace: kube-system
+spec:
+  selector:
+    matchLabels:
+      run: disable-stuff
+  template:
+    metadata:
+      labels:
+        run: disable-stuff
+    spec:
+      # needs hostPID to use systemctl
+      hostPID: true
+      # tolerate everyting
+      tolerations:
+      - operator: Exists
+      containers:
+      - name: startup-script
+        image: gcr.io/google-containers/startup-script:v1
+        securityContext:
+          privileged: true
+        env:
+        - name: STARTUP_SCRIPT
+          value: |
+            #!/bin/bash
+            set -o errexit
+            set -o xtrace
+            if systemctl is-active ssh.service; then
+              systemctl stop ssh.service
+            fi
+            if systemctl is-enabled ssh.service; then
+              systemctl disable ssh.service
+            fi
+            if systemctl is-active rpcbind.service; then
+              systemctl stop rpcbind.service
+            fi
+            if systemctl is-enabled rpcbind.service; then
+              systemctl disable rpcbind.service
+            fi
+            apt-get update -y && apt-get install -y cryptsetup

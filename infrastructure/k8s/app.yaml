@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: workshops
+  labels:
+    app: workshops
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: workshops
+  template:
+    metadata:
+      labels:
+        app: workshops
+    spec:
+      containers:
+        - image: ghcr.io/cieslarmichal/akamai-workshops:latest
+          name: workshops
+          ports:
+          - containerPort: 3000
+            name: http
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: workshops
+  labels:
+    app: workshops
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 80
+      targetPort: 3000
+      protocol: TCP
+  selector:
+    app: workshops
