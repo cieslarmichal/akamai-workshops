@@ -43,3 +43,6 @@ helm install \
   --create-namespace \
   --version v1.13.3 \
   --set installCRDs=true
+
+kubectl get pvc
+kubectl get storageclass
