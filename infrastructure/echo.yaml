@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: echo
+  name: workshops
   labels:
-    app: echo
+    app: workshops
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: echo
+      app: workshops
   template:
     metadata:
       labels:
-        app: echo
+        app: workshops
     spec:
       containers:
-        - image: gcr.io/google_containers/echoserver:1.9
-          name: echo
+        - image: ghcr.io/cieslarmichal/akamai-workshops:latest
+          name: workshops
           ports:
           - containerPort: 8080
             name: http
@@ -24,9 +24,9 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: echo
+  name: workshops
   labels:
-    app: echo
+    app: workshops
 spec:
   type: LoadBalancer
   ports:
@@ -34,4 +34,4 @@ spec:
       targetPort: 8080
       protocol: TCP
   selector:
-    app: echo
+    app: workshops
