@@ -33,11 +33,9 @@ helm install longhorn longhorn/longhorn --namespace longhorn-system --create-nam
 
 kubectl -n longhorn-system port-forward svc/longhorn-frontend 8080:80
 
-
-helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
-helm repo add jetstack https://charts.jetstack.io
+helm repo add ingress-nginx <https://kubernetes.github.io/ingress-nginx>
+helm repo add jetstack <https://charts.jetstack.io>
 help repo update
-
 
 helm install \
   cert-manager jetstack/cert-manager \
