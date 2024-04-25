@@ -16,8 +16,6 @@ const start = async () => {
     const port = 3000;
 
     await fastify.listen({ port, host });
-
-    console.log(`Server listening at ${port}`);
   } catch (err) {
     fastify.log.error(err);
     process.exit(1);
