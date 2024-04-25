@@ -1,3 +1,5 @@
 # akamai-workshops
 
-Boilerplate app code taken from: <https://fastify.dev/docs/latest/Guides/Getting-Started/#your-first-server>
+## Setup
+
+export TF_VAR_token=your-secret-linode-token-created-at-the-start-of-this-guide
