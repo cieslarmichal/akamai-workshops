@@ -5,7 +5,7 @@ resource "linode_lke_cluster" "workshops-cluster" {
 
   pool {
     type  = "g6-standard-2"
-    count = 1
+    count = 3
   }
 
   # Prevent the count field from overriding autoscaler-created nodes
