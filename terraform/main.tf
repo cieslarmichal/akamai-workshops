@@ -9,11 +9,11 @@ resource "linode_lke_cluster" "workshops-cluster" {
   }
 
   # Prevent the count field from overriding autoscaler-created nodes
-  lifecycle {
-    ignore_changes = [
-      pool.0.count
-    ]
-  }
+  # lifecycle {
+  #   ignore_changes = [
+  #     pool.0.count
+  #   ]
+  # }
 }
 
 //Export this cluster's attributes
