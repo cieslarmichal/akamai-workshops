@@ -1,4 +1,4 @@
-# akamai-workshops
+# Akamai Workshops - Linode Kubernetes
 
 ## Setup
 
@@ -14,8 +14,9 @@ kubectl apply -f daemon.yaml
 
 ## Check k8s resources
 
-k9s
-k9s -n kube-system
+kubectl get pods
+kubectl get pods -n kube-system
+kubectl get pods -n longhorn-system
 
 ## Update with latest image
 
@@ -24,3 +25,23 @@ kubectl rollout restart deployment/workshops
 ## Install longhorn
 
 curl -sSfL <https://raw.githubusercontent.com/longhorn/longhorn/v1.6.1/scripts/environment_check.sh> | bash
+
+helm repo add longhorn <https://charts.longhorn.io>
+helm repo update
+
+helm install longhorn longhorn/longhorn --namespace longhorn-system --create-namespace --version 1.6.1
+
+kubectl -n longhorn-system port-forward svc/longhorn-frontend 8080:80
+
+
+helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+helm repo add jetstack https://charts.jetstack.io
+help repo update
+
+
+helm install \
+  cert-manager jetstack/cert-manager \
+  --namespace cert-manager \
+  --create-namespace \
+  --version v1.13.3 \
+  --set installCRDs=true
