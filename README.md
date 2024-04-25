@@ -20,3 +20,7 @@ k9s -n kube-system
 ## Update with latest image
 
 kubectl rollout restart deployment/workshops
+
+## Install longhorn
+
+curl -sSfL <https://raw.githubusercontent.com/longhorn/longhorn/v1.6.1/scripts/environment_check.sh> | bash
