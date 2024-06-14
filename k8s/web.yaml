@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webben
+  labels:
+    app: webben
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: webben
+  template:
+    metadata:
+      labels:
+        app: webben
+    spec:
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: app
+                operator: In
+                values:
+                - webben
+            topologyKey: kubernetes.io/hostname
+      containers:
+        - image: nginx:latest
+          name: webben
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "15m"
+          ports:
+          - containerPort: 80
+            name: nginx
+          volumeMounts:
+          - name: nginx-volume
+            mountPath: /usr/share/nginx/html
+      volumes:
+      - name: nginx-volume
+        persistentVolumeClaim:
+          claimName: webben-nfs
