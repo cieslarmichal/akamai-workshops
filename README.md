@@ -2,6 +2,8 @@
 
 ## Setup
 
+reference: <https://blog.kr4ntz.com/linode/2023/03/24/Terraform-Linode-LKE.html>
+
 export TF_VAR_token=your-secret-linode-token-created-at-the-start-of-this-guide
 
 terraform apply
@@ -50,3 +52,9 @@ helm install \
 
 kubectl get pvc
 kubectl get storageclass
+
+## NFS
+
+kubectl exec -it webben-8498d89886-s9t76 -- bash
+
+df
