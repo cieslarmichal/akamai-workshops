@@ -1,0 +1,90 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: webben-nfs-disk
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 20Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webben-nfs-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      role: webben-nfs-server
+  template:
+    metadata:
+      labels:
+        role: webben-nfs-server
+    spec:
+      containers:
+      - name: webben-nfs-server
+        image: gcr.io/google_containers/volume-nfs:0.8
+        ports:
+          - name: nfs
+            containerPort: 2049
+          - name: mountd
+            containerPort: 20048
+          - name: rpcbind
+            containerPort: 111
+        securityContext:
+          privileged: true
+        volumeMounts:
+          - mountPath: /exports
+            name: webben-nfs-disk
+      volumes:
+       - name: webben-nfs-disk
+         persistentVolumeClaim:
+           claimName: webben-nfs-disk
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: webben-nfs-server
+spec:
+  # clusterIP: 10.3.240.20
+  clusterIP: 10.103.240.0
+  ports:
+    - name: nfs
+      port: 2049
+    - name: mountd
+      port: 20048
+    - name: rpcbind
+      port: 111
+  selector:
+    role: webben-nfs-server
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: webben-nfs
+spec:
+  capacity:
+    storage: 20Gi
+  accessModes:
+    - ReadWriteMany
+  mountOptions:
+    - hard
+    - nolock
+  nfs:
+    server: 10.103.240.0
+    #server: nfs-server
+    path: "/exports/"
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: webben-nfs
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: ""
+  resources:
+    requests:
+      storage: 20Gi
