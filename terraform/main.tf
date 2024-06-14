@@ -1,5 +1,5 @@
-resource "linode_lke_cluster" "workshops-cluster" {
-  label       = "akamai-workshops-cluster"
+resource "linode_lke_cluster" "michal-cieslar-cluster" {
+  label       = "akamai-michal-cieslar-cluster"
   k8s_version = var.k8s_version
   region      = var.region
 
@@ -18,22 +18,22 @@ resource "linode_lke_cluster" "workshops-cluster" {
 
 //Export this cluster's attributes
 output "kubeconfig" {
-  value     = linode_lke_cluster.workshops-cluster.kubeconfig
+  value     = linode_lke_cluster.michal-cieslar-cluster.kubeconfig
   sensitive = true
 }
 
 output "api_endpoints" {
-  value = linode_lke_cluster.workshops-cluster.api_endpoints
+  value = linode_lke_cluster.michal-cieslar-cluster.api_endpoints
 }
 
 output "status" {
-  value = linode_lke_cluster.workshops-cluster.status
+  value = linode_lke_cluster.michal-cieslar-cluster.status
 }
 
 output "id" {
-  value = linode_lke_cluster.workshops-cluster.id
+  value = linode_lke_cluster.michal-cieslar-cluster.id
 }
 
 output "pool" {
-  value = linode_lke_cluster.workshops-cluster.pool
+  value = linode_lke_cluster.michal-cieslar-cluster.pool
 }

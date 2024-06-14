@@ -4,6 +4,10 @@
 
 export TF_VAR_token=your-secret-linode-token-created-at-the-start-of-this-guide
 
+terraform apply
+
+terraform output -raw kubeconfig | base64 -d > lke-cluster-config.yaml
+
 export KUBECONFIG=$(pwd)/lke-cluster-config.yaml
 
 ## Deploy
