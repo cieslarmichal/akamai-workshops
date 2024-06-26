@@ -79,7 +79,66 @@ default password: prom-operator
 
 <https://grafana.com/docs/loki/latest/setup/install/helm/>
 
-helm repo add grafana https://grafana.github.io/helm-charts
+helm repo add grafana <https://grafana.github.io/helm-charts>
 helm repo update
 
 helm upgrade --install --create-namespace --namespace logging -f ./loki-values.yaml loki grafana/loki
+
+helm upgrade --install --wait --create-namespace --namespace logging logging-operator oci://ghcr.io/kube-logging/helm-charts/logging-operator
+
+```bash
+kubectl -n logging apply -f - <<"EOF"
+apiVersion: logging.banzaicloud.io/v1beta1
+kind: Logging
+metadata:
+  name: default-logging-simple
+spec:
+  fluentd: {}
+  fluentbit: {}
+  controlNamespace: logging
+EOF
+```
+
+```bash
+kubectl -n logging apply -f - <<"EOF"
+apiVersion: logging.banzaicloud.io/v1beta1
+kind: Output
+metadata:
+ name: loki-output
+spec:
+ loki:
+   url: http://loki:3100
+   configure_kubernetes_labels: true
+   buffer:
+     timekey: 1m
+     timekey_wait: 30s
+     timekey_use_utc: true
+EOF
+```
+
+```bash
+kubectl -n logging apply -f - <<"EOF"
+apiVersion: logging.banzaicloud.io/v1beta1
+kind: Flow
+metadata:
+  name: loki-flow
+spec:
+  filters:
+    - tag_normaliser: {}
+    - parser:
+        remove_key_name_field: true
+        reserve_data: true
+        parse:
+          type: nginx
+  match:
+    - select:
+        labels:
+          app.kubernetes.io/name: log-generator
+  localOutputRefs:
+    - loki-output
+EOF
+```
+
+helm upgrade --install --wait --create-namespace --namespace logging log-generator oci://ghcr.io/kube-logging/helm-charts/log-generator
+
+In Grafana UI, add Loki datasource with URL: <http://loki.logging:3100>
