@@ -142,3 +142,15 @@ EOF
 helm upgrade --install --wait --create-namespace --namespace logging log-generator oci://ghcr.io/kube-logging/helm-charts/log-generator
 
 In Grafana UI, add Loki datasource with URL: <http://loki.logging:3100>
+
+or
+
+```bash
+ helm upgrade --install --create-namespace --namespace logging grafana grafana/grafana \
+ --set persistence.enabled=true,persistence.size=10Gi \
+ --set "datasources.datasources\\.yaml.apiVersion=1" \
+ --set "datasources.datasources\\.yaml.datasources[0].name=Loki" \
+ --set "datasources.datasources\\.yaml.datasources[0].type=loki" \
+ --set "datasources.datasources\\.yaml.datasources[0].url=http://loki:3100" \
+ --set "datasources.datasources\\.yaml.datasources[0].access=proxy"
+```
