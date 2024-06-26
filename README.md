@@ -62,7 +62,6 @@ df
 ## Prometheus Operator
 
 helm repo add prometheus-community <https://prometheus-community.github.io/helm-charts>
-
 helm repo update
 
 helm upgrade --install prometheus -f prometheus-values.yaml prometheus-community/kube-prometheus-stack
@@ -75,3 +74,12 @@ default username: admin
 default password: prom-operator
 
 <https://github.com/prometheus-community/helm-charts/?tab=readme-ov-file>
+
+## Loki
+
+<https://grafana.com/docs/loki/latest/setup/install/helm/>
+
+helm repo add grafana https://grafana.github.io/helm-charts
+helm repo update
+
+helm upgrade --install --create-namespace --namespace logging -f ./loki-values.yaml loki grafana/loki
