@@ -4,7 +4,7 @@ resource "linode_lke_cluster" "michal-cieslar-cluster" {
   region      = var.region
 
   pool {
-    type  = "g6-standard-2"
+    type  = "g6-standard-6"
     count = 3
   }
 

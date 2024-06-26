@@ -58,3 +58,8 @@ kubectl get storageclass
 kubectl exec -it webben-8498d89886-s9t76 -- bash
 
 df
+
+## Prometheus Operator
+
+helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+helm repo update
