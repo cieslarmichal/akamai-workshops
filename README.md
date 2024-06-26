@@ -66,3 +66,12 @@ helm repo add prometheus-community <https://prometheus-community.github.io/helm-
 helm repo update
 
 helm upgrade --install prometheus -f prometheus-values.yaml prometheus-community/kube-prometheus-stack
+
+kubectl --namespace default get pods -l "release=prometheus"
+
+kubectl port-forward svc/prometheus-grafana 3000:80
+
+default username: admin
+default password: prom-operator
+
+<https://github.com/prometheus-community/helm-charts/?tab=readme-ov-file>
