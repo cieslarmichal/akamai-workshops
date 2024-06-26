@@ -61,5 +61,8 @@ df
 
 ## Prometheus Operator
 
-helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+helm repo add prometheus-community <https://prometheus-community.github.io/helm-charts>
+
 helm repo update
+
+helm upgrade --install prometheus -f prometheus-values.yaml prometheus-community/kube-prometheus-stack

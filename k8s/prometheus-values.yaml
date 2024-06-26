@@ -1,0 +1,36 @@
+# Prometheus Operator Helm Chart values for Linode Kubernetes Engine minimal deployment
+prometheus:
+  prometheusSpec:
+    storageSpec:
+      volumeClaimTemplate:
+        spec:
+          storageClassName: linode-block-storage-retain
+          resources:
+            requests:
+              storage: 10Gi
+
+alertmanager:
+  alertmanagerSpec:
+    storage:
+      volumeClaimTemplate:
+        spec:
+          storageClassName: linode-block-storage-retain
+          resources:
+            requests:
+              storage: 10Gi
+
+grafana:
+  persistence:
+    enabled: true
+    storageClassName: linode-block-storage-retain
+    size: 10Gi
+
+# Disable metrics for Linode-managed Kubernetes control plane elements
+kubeEtcd:
+  enabled: false
+
+kubeControllerManager:
+  enabled: false
+
+kubeScheduler:
+  enabled: false
